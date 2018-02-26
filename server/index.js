@@ -1,27 +1,26 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-// UNCOMMENT THE DATABASE YOU'D LIKE TO USE
-// var items = require('../database-mysql');
-// var items = require('../database-mongo');
+var items = require('../database-mysql');
+var dataMethods = require('./dataretrievers.js');
+var convert = require('xml-js');
 
 var app = express();
 
-// UNCOMMENT FOR REACT
-// app.use(express.static(__dirname + '/../react-client/dist'));
+app.use(express.static(__dirname + '/../react-client/dist'));
 
-// UNCOMMENT FOR ANGULAR
-// app.use(express.static(__dirname + '/../angular-client'));
-// app.use(express.static(__dirname + '/../node_modules'));
 
-app.get('/items', function (req, res) {
-  items.selectAll(function(err, data) {
-    if(err) {
-      res.sendStatus(500);
-    } else {
-      res.json(data);
-    }
-  });
+app.get('/deepSearch', function (req, res) {
+  dataMethods.zillowDeepSearch('746 Forest Ave', 'Larchmont', 'NY', function(data) {
+    var jsonData = convert.xml2json(data.data, {compact: true, spaces: 4});
+    // console.log('response ', JSON.parse(jsonData)[Object.keys(JSON.parse(jsonData))[1]].response.results.result.zpid._text);
+    var zipID = JSON.parse(jsonData)[Object.keys(JSON.parse(jsonData))[1]].response.results.result.zpid._text;
+    console.log('zipID ', zipID);
+    res.sendStatus(201);
+  })
 });
+// dataMethods.zillowDeepSearch('746 Forest Ave', 'Larchmont', 'NY');
+
+
 
 app.listen(3000, function() {
   console.log('listening on port 3000!');
