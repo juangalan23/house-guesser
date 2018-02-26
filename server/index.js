@@ -10,15 +10,15 @@ app.use(express.static(__dirname + '/../react-client/dist'));
 
 
 app.get('/deepSearch', function (req, res) {
-  dataMethods.zillowDeepSearch('746 Forest Ave', 'Larchmont', 'NY', function(data) {
-    var jsonData = convert.xml2json(data.data, {compact: true, spaces: 4});
-    // console.log('response ', JSON.parse(jsonData)[Object.keys(JSON.parse(jsonData))[1]].response.results.result.zpid._text);
-    var zipID = JSON.parse(jsonData)[Object.keys(JSON.parse(jsonData))[1]].response.results.result.zpid._text;
-    console.log('zipID ', zipID);
+  dataMethods.zillowDeepSearch('746 Forest Ave', 'Larchmont', 'NY', null, function(data) {
+    var jsonDeepSearch = convert.xml2json(data.data, {compact: true, spaces: 4});
+    var zipID = JSON.parse(jsonDeepSearch)[Object.keys(JSON.parse(jsonDeepSearch))[1]].response.results.result.zpid._text;
     res.sendStatus(201);
+    dataMethods.zillowGetCompsSearch(zipID , function(data) {
+      // console.log('data passed in server ', data);
+    }) 
   })
 });
-// dataMethods.zillowDeepSearch('746 Forest Ave', 'Larchmont', 'NY');
 
 
 
