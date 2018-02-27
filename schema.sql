@@ -7,16 +7,23 @@ USE housing;
 CREATE TABLE houses (
   id int NOT NULL AUTO_INCREMENT,
   zpid int NOT NULL,
-  quantity integer NOT NULL,
-  description varchar(50) NOT NULL,
+  housevalue int,
+  street varchar (200),
+  state varchar (20),
+  city varchar (200),
+  zipcode int,
+  bedrooms int,
+  bathrooms int,
+  year int,
   PRIMARY KEY (ID)
 );
 
 CREATE TABLE pictures (
   id int NOT NULL AUTO_INCREMENT,
-  url varchar (200),
   zpid int NOT NULL,
-  PRIMARY KEY (ID)
+  link varchar (200),
+  PRIMARY KEY (ID),
+  UNIQUE (link)
 );
 
 /*  Execute this file from the command line by typing:

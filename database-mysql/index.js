@@ -4,7 +4,7 @@ var connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
   password : 'skate',
-  database : 'test'
+  database : 'housing'
 });
 
 var selectAll = function(callback) {
@@ -17,4 +17,18 @@ var selectAll = function(callback) {
   });
 };
 
+var saveImageToDb = function(url, zpid, callback) {
+  connection.query(`INSERT INTO pictures (link, zpid) VALUES( '${url}', ${zpid} )`, function(err, res) {
+    if (err) {
+      callback(err, res);
+    } else {
+      callback(err, res);
+    }
+  });
+};
+
+
+
 module.exports.selectAll = selectAll;
+module.exports.connection = connection;
+module.exports.saveImageToDb = saveImageToDb;

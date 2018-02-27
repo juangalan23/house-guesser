@@ -1,6 +1,7 @@
 const axios = require('axios');
 const zillowApiKey = require('../zillowApiKey.js');
 var convert = require('xml-js');
+var db = require('../database-mysql')
 
 let dataMethods = {};
 
@@ -21,7 +22,7 @@ dataMethods.zillowDeepSearch = function (address, city, state, zipid = null, cal
 }
 
 dataMethods.zillowGetCompsSearch = function(zipID, callback) {
-    var getCompsUrl = `http://www.zillow.com/webservice/GetComps.htm?zws-id=${zillowApiKey}&zpid=${zipID}&count=2`;
+    var getCompsUrl = `http://www.zillow.com/webservice/GetComps.htm?zws-id=${zillowApiKey}&zpid=${zipID}&count=10`;
     axios({
         method: 'get',
         url: getCompsUrl
@@ -96,24 +97,39 @@ dataMethods.zillowGetUpdatedPropertyData =function(zipid, callback) {
         callback(data);
     })
     .catch((err) => {
-        console.log('err in getting updated prop data ', err)
+        callback(err)
     })
 }
 
 dataMethods.retrieveAndSaveImages = function(array) {
-    this.zillowGetUpdatedPropertyData( array[1], (data) => {
-        // ERROR TO NOTE: NOT ALL PROPERTIES HAVE UPDATED PROPERTY INFO
-        // DECISION TO TAKE: SHOULD WE STORE ALL THE INFO ANYWAY? AND FILTER RESULTS BY IF IMAGES
-        // WHEN DECIDING TO UPLOAD TO CLIENT? 
-        // OR SHOULD WE RUN THE IF NO IMAGES, THEN DON'T SAVE TO DB NOW
-        console.log('updated prop data ', convert.xml2json(data.data, {compact: true, spaces: 4}))
-    }) 
+    array.forEach(zipid => {
+        this.zillowGetUpdatedPropertyData( zipid, (data) => {
+            // ERROR TO NOTE: NOT ALL PROPERTIES HAVE UPDATED PROPERTY INFO
+            // DECISION TO TAKE: SHOULD WE STORE ALL THE INFO ANYWAY? AND FILTER RESULTS BY IF IMAGES
+            // WHEN DECIDING TO UPLOAD TO CLIENT? 
+            // OR SHOULD WE RUN THE IF NO IMAGES, THEN DON'T SAVE TO DB NOW
+            if(data.data ){
+                var updatedPropData = JSON.parse(convert.xml2json(data.data, {compact: true, spaces: 4}));
+                var imagesArray = updatedPropData[Object.keys(updatedPropData)[1]].response.images.image.url;
+                if (imagesArray) {
+                    imagesArray.forEach(image => {
+                        db.saveImageToDb(image._text, zipid, function(res) {
+                            console.log('result of saving to db ', res)
+                        })
+                    })
+                } else {
+                    console.log(' no images to save ');
+                }
+            }
+        }) 
+        
+    });
 }
 
 dataMethods.retrieveAndSaveHouseData = function(array) {
     this.zillowDeepSearch(array[0].street, array[0].city, array[0].state, array[0].zipid, function(data) {
         var jsonDeepSearch = convert.xml2json(data.data, {compact: true, spaces: 4});
-        console.log('deepsearch house data ', jsonDeepSearch);
+        // console.log('deepsearch house data ', jsonDeepSearch);
     })
 }
 
