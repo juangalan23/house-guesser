@@ -7,9 +7,10 @@ USE housing;
 CREATE TABLE houses (
   id int NOT NULL AUTO_INCREMENT,
   zpid int NOT NULL,
-  housevalue int,
+  housevalue varchar (200),
+  areavalue varchar (200) default '',
   street varchar (200),
-  state varchar (20),
+  stateInitials varchar (20),
   city varchar (200),
   zipcode int,
   bedrooms int,

@@ -1,0 +1,30 @@
+{
+    "addresses": [
+        {
+            "address1": "746 Forest Ave",
+            "city": "Larchmont",
+            "state": "NY"
+        }
+        ,
+        {
+            "address1": "100 Pryer Terrace",
+            "city": "New Rochelle",
+            "state": "NY"
+        },
+        {
+            "address1": "429 Ave C",
+            "city": "Coronado",
+            "state": "CA"
+        },
+        {
+            "address1": "100 Pryer Terrace",
+            "city": "New Rochelle",
+            "state": "NY"
+        },
+        {
+            "address1": "100 Pryer Terrace",
+            "city": "New Rochelle",
+            "state": "NY"
+        }
+    ]
+}

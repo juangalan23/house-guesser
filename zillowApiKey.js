@@ -1,4 +1,4 @@
-var zillowApiKey = 'X1-ZWz18qxo6lseff_32ywy';
+var zillowApiKey = 'X1-ZWz1g9oezva5fv_5m9vn';
 
 
 module.exports = zillowApiKey;

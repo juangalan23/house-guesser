@@ -18,7 +18,7 @@ var selectAll = function(callback) {
 };
 
 var saveImageToDb = function(url, zpid, callback) {
-  connection.query(`INSERT INTO pictures (link, zpid) VALUES( '${url}', ${zpid} )`, function(err, res) {
+  connection.query(`INSERT INTO pictures (link, zpid) VALUES( '${url}', '${zpid}' )`, function(err, res) {
     if (err) {
       callback(err, res);
     } else {
@@ -27,8 +27,22 @@ var saveImageToDb = function(url, zpid, callback) {
   });
 };
 
+var saveHouseToDb = function(zpid, housevalue, areavalue, street, state, city, zipcode, bedroom, bathrooms, year, callback) {
+  connection.query(`INSERT INTO 
+  houses (zpid, housevalue, areavalue, street, stateInitials, 
+    city, zipcode, bedrooms, bathrooms, year)
+    VALUES ('${zpid}', '${housevalue}', '${areavalue}', '${street}', '${state}', 
+    '${city}', '${zipcode}', '${bedroom}', '${bathrooms}', '${year}')`, 
+    function(err, res) {
+      if (err) {
+        callback(err, res);
+      } else {
+        callback (err, res);
+      }
+    })
+}
 
-
+module.exports.saveHouseToDb = saveHouseToDb;
 module.exports.selectAll = selectAll;
 module.exports.connection = connection;
 module.exports.saveImageToDb = saveImageToDb;
