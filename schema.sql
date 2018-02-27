@@ -1,13 +1,21 @@
-DROP DATABASE IF EXISTS test;
+DROP DATABASE IF EXISTS housing;
 
-CREATE DATABASE test;
+CREATE DATABASE housing;
 
-USE test;
+USE housing;
 
-CREATE TABLE items (
+CREATE TABLE houses (
   id int NOT NULL AUTO_INCREMENT,
+  zpid int NOT NULL,
   quantity integer NOT NULL,
   description varchar(50) NOT NULL,
+  PRIMARY KEY (ID)
+);
+
+CREATE TABLE pictures (
+  id int NOT NULL AUTO_INCREMENT,
+  url varchar (200),
+  zpid int NOT NULL,
   PRIMARY KEY (ID)
 );
 

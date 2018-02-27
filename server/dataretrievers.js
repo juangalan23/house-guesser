@@ -27,52 +27,95 @@ dataMethods.zillowGetCompsSearch = function(zipID, callback) {
         url: getCompsUrl
     })
     .then( (data) => {
-        var jsonGetComps = JSON.parse(convert.xml2json(data.data, {compact: true, spaces: 4}));
-        var similarHousesArray = jsonGetComps[Object.keys(jsonGetComps)[1]].response.properties.comparables.comp;
-        var zipIdArray = [];
-        var addressArray = [];
-        // console.log('similar houses array ', similarHousesArray[0].address.street._text)
-        similarHousesArray.forEach(house => {
-            zipIdArray.push(house.zpid._text);
-        })
-        similarHousesArray.forEach(house => {
-            var houseObj = {};
-            houseObj.zipid = house.zpid._text;
-            houseObj.street = house.address.street._text;
-            houseObj.city = house.address.city._text;
-            houseObj.state = house.address.state._text;
-            addressArray.push(houseObj);
-        })
-        console.log('address array ', addressArray)
-        console.log('zipid array ', zipIdArray);
-        // zipIdArray.forEach(zipid => {
-        //     dataMethods.getUpdatedPropertyData(zipid);
+
+        // ALL THIS CODE UNTIL THE CALLBACK IS CALLED SHOULD NOT BE NECESSARY
+        // AS YOU TESTED YESTERDAY THAT BY CALLING OUR HELPER FUNCTIONS BELOW, WE CONFIRMED THAT WE'RE 
+        // GETTING THE SAME ARRAYS IN THE SERVER THAN THE ONES THAT ARE CREATED HERE
+        // var jsonGetComps = JSON.parse(convert.xml2json(data.data, {compact: true, spaces: 4}));
+        // var similarHousesArray = jsonGetComps[Object.keys(jsonGetComps)[1]].response.properties.comparables.comp;
+        // var zipIdArray = [];
+        // var addressArray = [];
+        // // console.log('similar houses array ', similarHousesArray[0].address.street._text)
+        // similarHousesArray.forEach(house => {
+        //     zipIdArray.push(house.zpid._text);
         // })
+        // similarHousesArray.forEach(house => {
+        //     var houseObj = {};
+        //     houseObj.zipid = house.zpid._text;
+        //     houseObj.street = house.address.street._text;
+        //     houseObj.city = house.address.city._text;
+        //     houseObj.state = house.address.state._text;
+        //     addressArray.push(houseObj);
+        // })
+        // console.log('zipIdArray in data methods', zipIdArray)
+        // console.log('address array in data methods', addressArray)
         // dataMethods.getUpdatedPropertyData(zipIdArray[0]);
-        callback(zipIdArray);
+        // callback(zipIdArray);
+        // HERE WE SHOULD INVOKE THE CALL BACK WITH DATA, SO THAT THE DATA GOES BACK TO THE SERVER
+        // THEN IN THE SERVER, WE WILL TAKE THAT DATA, AND INVOKE OUR ARRAY GENERATOR FUNCTIONS
+        // WITH THE NEW ARRAYS, WE WILL ITERATE THROUGH THEM AND CONTINUE MAKING OUR API CALLS
+        callback(data);
     })
     .catch((err) => {
         console.log('err in gets comps search ', err);
     })
 }
 
-dataMethods.getUpdatedPropertyData =function(zipid) {
+dataMethods.generateZipIdArray = function(data) {
+    var jsonGetComps = JSON.parse(convert.xml2json(data.data, {compact: true, spaces: 4}));
+    var similarHousesArray = jsonGetComps[Object.keys(jsonGetComps)[1]].response.properties.comparables.comp;
+    var zipIdArray = [];
+    similarHousesArray.forEach(house => {
+        zipIdArray.push(house.zpid._text);
+    })
+    return zipIdArray; 
+}
+
+dataMethods.generateAddressDataArray = function(data) {
+    var jsonGetComps = JSON.parse(convert.xml2json(data.data, {compact: true, spaces: 4}));
+    var similarHousesArray = jsonGetComps[Object.keys(jsonGetComps)[1]].response.properties.comparables.comp;
+    var addressArray = [];
+    similarHousesArray.forEach(house => {
+        var houseObj = {};
+        houseObj.zipid = house.zpid._text;
+        houseObj.street = house.address.street._text;
+        houseObj.city = house.address.city._text;
+        houseObj.state = house.address.state._text;
+        addressArray.push(houseObj);
+    })
+    return addressArray
+}
+
+dataMethods.zillowGetUpdatedPropertyData =function(zipid, callback) {
     var houseDetailsUrl = `http://www.zillow.com/webservice/GetUpdatedPropertyDetails.htm?zws-id=${zillowApiKey}&zpid=${zipid}`;
     axios({
         method: 'get',
-        url: getUpdatedPropertyDataUrl
+        url: houseDetailsUrl
     })
     .then( (data)=> {
-        console.log('updated prop data ', convert.xml2json(data.data, {compact: true, spaces: 4}))
+        callback(data);
     })
     .catch((err) => {
         console.log('err in getting updated prop data ', err)
     })
 }
 
+dataMethods.retrieveAndSaveImages = function(array) {
+    this.zillowGetUpdatedPropertyData( array[1], (data) => {
+        // ERROR TO NOTE: NOT ALL PROPERTIES HAVE UPDATED PROPERTY INFO
+        // DECISION TO TAKE: SHOULD WE STORE ALL THE INFO ANYWAY? AND FILTER RESULTS BY IF IMAGES
+        // WHEN DECIDING TO UPLOAD TO CLIENT? 
+        // OR SHOULD WE RUN THE IF NO IMAGES, THEN DON'T SAVE TO DB NOW
+        console.log('updated prop data ', convert.xml2json(data.data, {compact: true, spaces: 4}))
+    }) 
+}
 
-
-
+dataMethods.retrieveAndSaveHouseData = function(array) {
+    this.zillowDeepSearch(array[0].street, array[0].city, array[0].state, array[0].zipid, function(data) {
+        var jsonDeepSearch = convert.xml2json(data.data, {compact: true, spaces: 4});
+        console.log('deepsearch house data ', jsonDeepSearch);
+    })
+}
 
 
 module.exports = dataMethods;
