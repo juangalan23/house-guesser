@@ -125,8 +125,39 @@ dataMethods.retrieveAndSaveHouseData = function(house) {
                     console.log('saved house to db ', res)
                 }
             })
-
     })
+}
+
+dataMethods.getAllIds = function(callback) {
+    db.connection.query(`SELECT zpid FROM houses`, function(err, res) {
+        if (err) {
+            console.log('err in querying db ', err)
+        } else {
+            // console.log('sucessful query from db ', res)
+            callback(res)
+        }
+    })
+}
+
+dataMethods.getPicsById = function(id, callback) {
+    db.connection.query(`SELECT link from pictures WHERE zpid = '${id}' `, function(err, res) {
+        if (err) {
+            console.log('err in getting pics by house id ', err)
+        } else {
+            // console.log('results from db query ', res)
+            callback(res);
+        }
+    })
+}
+
+dataMethods.getHouseDataById = function(id, callback) {
+    db.connection.query(`SELECT * FROM houses WHERE zpid = '${id}' `, function(err, res) {
+        if (err) {
+            console.log('err in getting house data in db ', err)
+        } else {
+            callback(res)
+        }
+    } )
 }
 
 

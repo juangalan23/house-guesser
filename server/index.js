@@ -60,6 +60,36 @@ app.get('/addHousesToDB', function (req, res) {
   })
 });
 
+app.get('/getAllIds', function(req, res) {
+  dataMethods.getAllIds(function(id) {
+  var justIdArray = id.map( id => {
+    return id.zpid
+  })
+  // console.log('ids from data methods call in server ', justIdArray);
+    res.send(justIdArray);
+  })
+})
+
+app.get('/getPicsById'  , function( req, res) {
+  var houseId = req.query.houseId;
+  dataMethods.getPicsById(houseId, function(data) {
+    var idArray = data.map(link => {
+      return link.link
+    })
+    res.send(idArray)
+    // console.log('pics links from db ', idArray)
+  })
+})
+
+app.get('/getHouseDataById'  , function( req, res) {
+  var houseId = req.query.houseId;
+  dataMethods.getHouseDataById(houseId, function(data) {
+    // res.send(idArray)
+    // console.log('house data retrieved from from db ', data[0])
+    res.send(data[0])
+  })
+})
+
 
 
 app.listen(3000, function() {
