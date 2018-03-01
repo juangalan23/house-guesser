@@ -2,13 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { withStyles } from 'material-ui/styles';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
+import Button from 'material-ui/Button';
 
 const styles = theme => ({
     root: {
     //   width: '60%',
       marginTop: theme.spacing.unit * 3,
       overflowX: 'auto',
-    }
+    },
+    button: {
+        margin: theme.spacing.unit,
+      }
     // ,
     // table: {
     //   minWidth: 700,
@@ -38,13 +42,13 @@ class OptionsTable extends React.Component {
                     <TableBody>
 
                         <TableRow>
-                            <TableCell> {this.props.choices[0]}  </TableCell>
-                            <TableCell> {this.props.choices[1]} </TableCell>
+                            <TableCell> <Button >{this.props.choices[0]} </Button>  </TableCell>
+                            <TableCell> <Button >{this.props.choices[1]} </Button> </TableCell>
                         </TableRow>
 
                         <TableRow>
-                            <TableCell> {this.props.choices[2]}  </TableCell>
-                            <TableCell> {this.props.choices[3]} </TableCell>
+                            <TableCell> <Button >{this.props.choices[2]} </Button> </TableCell>
+                            <TableCell> <Button >{this.props.choices[3]} </Button> </TableCell>
                         </TableRow>
 
                     </TableBody>
