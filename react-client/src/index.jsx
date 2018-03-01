@@ -1,17 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
+import OptionsTable from './OptionsTable.jsx';
+import Images from './Images.jsx';
+import Reboot from 'material-ui/Reboot';
+import ButtonAppBar from './AppBar.jsx';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { 
-      houseData: {},
-      houseImages: [],
-      availableHouses: [],
-      houseId: [],
-      guessOptions: []
-    }
+      this.state = { 
+        houseData: {},
+        houseImages: [],
+        availableHouses: [],
+        houseId: [],
+        guessOptions: []
+      }
     this.getAllHouseIds = this.getAllHouseIds.bind(this);
     this.getRandomHouse = this.getRandomHouse.bind(this);
     this.getPicsById = this.getPicsById.bind(this);
@@ -50,8 +54,6 @@ class App extends React.Component {
   }
 
   getPicsById (houseId) {
-    // need to pass in the ID WE NEED TO GET DATA FOR SO THAT 
-    // THE SERVER CAN PASS IT ON TO OUR DATA RETRIEVER FUNCTION
     axios({
       method: 'get',
       url: '/getPicsById',
@@ -113,8 +115,27 @@ class App extends React.Component {
  
  
   render () {
-    return (<div>
-      <h1>Item List</h1>
+    if (!this.state.houseImages.length) {
+      var images = <div> </div>;
+    } else {
+      var images = <Images pics={this.state.houseImages} />
+    }
+
+    if(!this.state.guessOptions.length) {
+      var options = <div></div>
+    } else {
+      var options = <OptionsTable choices={this.state.guessOptions} />
+    }
+    
+    return (
+    <div style ={{
+      width: '60%'
+    }}>
+      <Reboot/>
+        <ButtonAppBar />
+        {images}
+        {options}
+
     </div>)
   }
 }
