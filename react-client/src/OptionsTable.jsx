@@ -6,9 +6,6 @@ import Button from 'material-ui/Button';
 import CorrectDialogSlide from './UserFeedback/CorrectFeedback.jsx';
 import IncorrectDialogSlide from './UserFeedback/IncorrectFeedback.jsx';
 var formatUSD = require('format-usd');
-var dollar = require('currency-formatter');
-
-
 
 const styles = theme => ({
     root: {
@@ -76,6 +73,7 @@ class OptionsTable extends React.Component {
             var answerFeedback = < CorrectDialogSlide 
                                     resetAnswer={this.resetAnswer} 
                                     getNewHouse={this.props.getNewHouse}
+                                    resetHint={this.props.resetHint}
                                     />
         }
         if (this.state.answer === false) {
@@ -87,17 +85,7 @@ class OptionsTable extends React.Component {
             <div>
                 {answerFeedback}
                 <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell> 
-                            {this.props.houseData.bedrooms} {bedrooms}, <span></span>
-                            {this.props.houseData.bedrooms} {bathrooms} house in <span></span>
-                            {this.props.houseData.city.toLowerCase()}, {this.props.houseData.stateInitials}
-                            </TableCell>
-                            <TableCell>   
-                            </TableCell>
-                        </TableRow>
-                    </TableHead>
+
 
                     <TableBody>
 

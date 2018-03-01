@@ -32,6 +32,7 @@ function Transition(props) {
       this.setState({ open: false }, () => {
         this.props.resetAnswer();
         this.props.getNewHouse();
+        this.props.resetHint();
       });
     };
   

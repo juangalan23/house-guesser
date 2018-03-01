@@ -5,6 +5,9 @@ import OptionsTable from './OptionsTable.jsx';
 import Images from './Images.jsx';
 import Reboot from 'material-ui/Reboot';
 import ButtonAppBar from './AppBar.jsx';
+import HintsButton from './HintsButton.jsx';
+import HintTransition from './HintTransition.jsx';
+import Button from 'material-ui/Button';
 
 class App extends React.Component {
   constructor(props) {
@@ -14,16 +17,20 @@ class App extends React.Component {
         houseImages: [],
         availableHouses: [],
         houseId: [],
-        guessOptions: []
+        guessOptions: [],
+        onHint: 0
       }
     this.getAllHouseIds = this.getAllHouseIds.bind(this);
     this.getRandomHouse = this.getRandomHouse.bind(this);
     this.getPicsById = this.getPicsById.bind(this);
     this.generateGuessOptions = this.generateGuessOptions.bind(this);
+    this.resetHint = this.resetHint.bind(this);
+    this.changeHint = this.changeHint.bind(this);
   }
 
   componentDidMount() {
-    this.getAllHouseIds()
+    this.getAllHouseIds();
+    this.resetHint();
   }
 
   getAllHouseIds () {
@@ -32,7 +39,6 @@ class App extends React.Component {
         this.setState({
           availableHouses: houseIds.data
         }, () => {
-          console.log('new househouseIds array state ', this.state.availableHouses)
           this.getRandomHouse()
         })
       })
@@ -44,13 +50,11 @@ class App extends React.Component {
   }
 
   getRandomHouse() {
-    // console.log('houses available ', this.state.availableHouses.length);
     var numberAvailableHouses = this.state.availableHouses.length;
     var randomIndex = Math.floor(Math.random(0, numberAvailableHouses) * numberAvailableHouses)
     var randomZipId = this.state.availableHouses[randomIndex];
     this.getPicsById(randomZipId)
     this.getHouseDataById(randomZipId)
-    // return randomIndex
   }
 
   getPicsById (houseId) {
@@ -64,7 +68,6 @@ class App extends React.Component {
       this.setState({
         houseImages: pics.data
       }, () => {
-        console.log('new pics state ', this.state.houseImages)
       })
     }) 
     .catch( (err) => {
@@ -85,7 +88,7 @@ class App extends React.Component {
         houseData: houseData.data
       }, () => {
         this.generateGuessOptions();
-        console.log('new house data state ', this.state.houseData)
+        console.log('state house data ', this.state.houseData)
       })
     })
     .catch( (err)=> {
@@ -103,13 +106,9 @@ class App extends React.Component {
     var guessArray = [correctValue, option1, option2, option3];
     function shuffle(array) {
       var currentIndex = array.length, temporaryValue, randomIndex;
-      // While there remain elements to shuffle...
       while (0 !== currentIndex) {
-        // Pick a remaining element...
         randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex -= 1;
-    
-        // And swap it with the current element.
         temporaryValue = array[currentIndex];
         array[currentIndex] = array[randomIndex];
         array[randomIndex] = temporaryValue;
@@ -120,7 +119,18 @@ class App extends React.Component {
     this.setState({
       guessOptions: shuffledOptions
     }, () => {
-      console.log('new options state ', this.state.guessOptions)
+    })
+  }
+
+  resetHint() {
+    this.setState({
+      onHint: 0
+    })
+  }
+
+  changeHint() {
+    this.setState({
+      onHint: this.state.onHint + 1
     })
   }
  
@@ -129,7 +139,7 @@ class App extends React.Component {
     if (!this.state.houseImages.length) {
       var images = <div> </div>;
     } else {
-      var images = <Images pics={this.state.houseImages} />
+      var images = <Images pics={this.state.houseImages} houseData={this.state.houseData}  />
     }
 
     if(!this.state.guessOptions.length) {
@@ -139,22 +149,24 @@ class App extends React.Component {
                     choices={this.state.guessOptions} 
                     houseData={this.state.houseData} 
                     getNewHouse={this.getAllHouseIds} 
+                    resetHint={this.resetHint}
                     />
     }
-    
+
     return (
     <div style ={{
       width: '100%'
     }}>
       <Reboot/>
         <ButtonAppBar />
-        <div style={{
-          height: '400px'
-        }} >
+        <div style={{ height: '400px'}} >
         {images}
         </div>
         {options}
-
+        < HintTransition 
+          onHint={this.state.onHint} 
+          changeHint={this.changeHint} 
+          houseData={this.state.houseData}/>
     </div>)
   }
 }
