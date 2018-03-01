@@ -16,13 +16,23 @@
             "state": "CA"
         },
         {
-            "address1": "100 Pryer Terrace",
-            "city": "New Rochelle",
+            "address1": "1057 Ramona St.",
+            "city": "Palo Alto",
+            "state": "CA"
+        },
+        {
+            "address1": "Lund Court 21",
+            "city": "Woodstock",
             "state": "NY"
         },
         {
-            "address1": "100 Pryer Terrace",
-            "city": "New Rochelle",
+            "address1": "1650 Eighth Ave",
+            "city": "San Diego",
+            "state": "CA"
+        },
+        {
+            "address1": "141 Dunbar Road",
+            "city": "Hudson",
             "state": "NY"
         }
     ]

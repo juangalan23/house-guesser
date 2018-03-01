@@ -9,7 +9,7 @@ const styles = {
       display: 'flex',
       flexWrap: 'wrap',
       justifyContent: 'space-around',
-      height: '80%'
+      height: '100%'
     },
     gridList: {
       display: 'flex',
@@ -42,6 +42,9 @@ class Images extends React.Component {
                 return (<GridListTile 
                 title={"Hello"}
                 key={image}
+                style={{
+                  height:'100%'
+                }}
               > 
               <img src={image} />
                 </GridListTile>)  

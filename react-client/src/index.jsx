@@ -97,17 +97,28 @@ class App extends React.Component {
     var correctValue = Number(this.state.houseData.housevalue);
     var maxRange = correctValue*1.4;
     var minRange = correctValue*.6;
-    // console.log('correct value ', correctValue)
-    // console.log('max values ', maxRange);
-    // console.log('min range ', minRange);
     var option1 = Math.floor( Math.random()*(maxRange - minRange) + minRange);
     var option2 = Math.floor( Math.random()*(maxRange - minRange) + minRange);
     var option3 = Math.floor( Math.random()*(maxRange - minRange) + minRange);
-    // console.log('option 1 ', option1)
-    // console.log('option 2 ', option2)
-    // console.log('option 3 ', option3)
+    var guessArray = [correctValue, option1, option2, option3];
+    function shuffle(array) {
+      var currentIndex = array.length, temporaryValue, randomIndex;
+      // While there remain elements to shuffle...
+      while (0 !== currentIndex) {
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+    
+        // And swap it with the current element.
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+      }
+      return array;
+    }
+    var shuffledOptions = shuffle(guessArray)
     this.setState({
-      guessOptions: [correctValue, option1, option2, option3]
+      guessOptions: shuffledOptions
     }, () => {
       console.log('new options state ', this.state.guessOptions)
     })
@@ -124,16 +135,24 @@ class App extends React.Component {
     if(!this.state.guessOptions.length) {
       var options = <div></div>
     } else {
-      var options = <OptionsTable choices={this.state.guessOptions} />
+      var options = <OptionsTable 
+                    choices={this.state.guessOptions} 
+                    houseData={this.state.houseData} 
+                    getNewHouse={this.getAllHouseIds} 
+                    />
     }
     
     return (
     <div style ={{
-      width: '60%'
+      width: '100%'
     }}>
       <Reboot/>
         <ButtonAppBar />
+        <div style={{
+          height: '400px'
+        }} >
         {images}
+        </div>
         {options}
 
     </div>)

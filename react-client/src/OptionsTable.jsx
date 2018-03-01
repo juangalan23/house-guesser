@@ -3,7 +3,12 @@ import ReactDOM from 'react-dom';
 import { withStyles } from 'material-ui/styles';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
 import Button from 'material-ui/Button';
+import CorrectDialogSlide from './UserFeedback/CorrectFeedback.jsx';
+import IncorrectDialogSlide from './UserFeedback/IncorrectFeedback.jsx';
+var formatUSD = require('format-usd');
 var dollar = require('currency-formatter');
+
+
 
 const styles = theme => ({
     root: {
@@ -25,31 +30,115 @@ class OptionsTable extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            answer: null
         }
+        this.handleClick = this.handleClick.bind(this);
+        this.resetAnswer = this.resetAnswer.bind(this);
     }
 
+    handleClick(e) {
+            e.preventDefault();
+            if( e.currentTarget.getAttribute('data-option') ===  this.props.houseData.housevalue) {
+                this.setState({
+                    answer: true
+                }, ()=> {
+                    // this.props.getNewHouse();
+                })
+            } else {
+                this.setState({
+                    answer: false
+                })
+            }
+    } 
+
+    resetAnswer() {
+        this.setState({
+            answer: null
+        })
+    }
     render() {
+        if(this.props.houseData.bedrooms >1 ) {
+            var bedrooms = "bedrooms"
+        } else {
+            var bedrooms = "bedroom"
+        }
+
+        if(this.props.houseData.bathrooms >1 ) {
+            var bathrooms = "bathrooms"
+        } else {
+            var bathrooms = "bathroom"
+        }
+
+        if(this.state.answer === null) {
+            var answerFeedback = <div> </div>
+        }
+        if (this.state.answer === true) {
+            var answerFeedback = < CorrectDialogSlide 
+                                    resetAnswer={this.resetAnswer} 
+                                    getNewHouse={this.props.getNewHouse}
+                                    />
+        }
+        if (this.state.answer === false) {
+            var answerFeedback = < IncorrectDialogSlide resetAnswer={this.resetAnswer} />
+        }
+
         return(
+            
             <div>
+                {answerFeedback}
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell> Guess the house value!  </TableCell>
-                            <TableCell>   </TableCell>
+                            <TableCell> 
+                            {this.props.houseData.bedrooms} {bedrooms}, <span></span>
+                            {this.props.houseData.bedrooms} {bathrooms} house in <span></span>
+                            {this.props.houseData.city.toLowerCase()}, {this.props.houseData.stateInitials}
+                            </TableCell>
+                            <TableCell>   
+                            </TableCell>
                         </TableRow>
                     </TableHead>
 
                     <TableBody>
 
                         <TableRow>
-                            <TableCell> <Button color="primary" > {dollar.format(this.props.choices[0], { code: 'USD'})}  </Button>  </TableCell>
-                            <TableCell> <Button color="primary" > {dollar.format(this.props.choices[1], { code: 'USD'})}  </Button> </TableCell>
+                            <TableCell> 
+                                <Button color="primary" 
+                                    data-option={this.props.choices[0]}
+                                    onClick={this.handleClick}
+                                > 
+                                    {formatUSD({amount: this.props.choices[0], decimalPlaces: 0})}
+ 
+                                </Button>  
+                            </TableCell>
+                            <TableCell> 
+                                <Button color="primary" 
+                                    data-option={this.props.choices[1]}
+                                    onClick={this.handleClick}
+                                >   
+                                    {formatUSD({amount: this.props.choices[1], decimalPlaces: 0})}
+
+                                </Button> 
+                            </TableCell>
                         </TableRow>
 
                         <TableRow>
-                            <TableCell> <Button color="primary" > {dollar.format(this.props.choices[2], { code: 'USD'})}  </Button> </TableCell>
-                            <TableCell> <Button color="primary" > {dollar.format(this.props.choices[3], { code: 'USD'})}  </Button> </TableCell>
+                            <TableCell> 
+                                <Button color="primary" 
+                                    data-option={this.props.choices[2]}
+                                    onClick={this.handleClick}
+                                >   
+                                    {formatUSD({amount: this.props.choices[2], decimalPlaces: 0})} 
+                                </Button> 
+                            </TableCell>
+                            <TableCell> 
+                                <Button color="primary" 
+                                    data-option={this.props.choices[3]}
+                                    onClick={this.handleClick}
+                                >   
+                                    {formatUSD({amount: this.props.choices[3], decimalPlaces: 0})}
+                                </Button> 
+                            </TableCell>
                         </TableRow>
 
                     </TableBody>

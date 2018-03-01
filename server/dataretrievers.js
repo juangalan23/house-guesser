@@ -6,8 +6,7 @@ var db = require('../database-mysql')
 
 let dataMethods = {};
 
-dataMethods.zillowDeepSearch = function (address, city, state, zipid = null, callback) {
-    
+dataMethods.zillowDeepSearch = function (address, city, state, zipid = null, callback) {  
     var newAddress = address.replace(/ /gi, '+');
     var newCity = city.replace(/ /gi, '+');
     // console.log('new address ', newAddress);
@@ -107,7 +106,6 @@ dataMethods.retrieveAndSaveHouseData = function(house) {
     this.zillowDeepSearch(house.street, house.city, house.state, house.zipid, function(data) {
         var jsonDeepSearch = JSON.parse(convert.xml2json(data.data, {compact: true, spaces: 4}));
         // console.log('deepsearch house data', jsonDeepSearch);
-        
         // console.log('address ', house.street, house.city, house.state, house.zipid)
         // console.log('house zipid ', house.zipid);
         // console.log('house value ', houseValue);
@@ -117,7 +115,8 @@ dataMethods.retrieveAndSaveHouseData = function(house) {
         var bathRooms = jsonDeepSearch[Object.keys(jsonDeepSearch)[1]].response.results.result.bathrooms._text;
         var yearBuilt = jsonDeepSearch[Object.keys(jsonDeepSearch)[1]].response.results.result.yearBuilt._text;
         // console.log('house in save house ', house );
-        db.saveHouseToDb(house.zipid, houseValue, areaValue, house.street, 
+        if(houseValue){
+            db.saveHouseToDb(house.zipid, houseValue, areaValue, house.street, 
             house.state, house.city, house.zipcode, bedRooms, bathRooms, yearBuilt, function(err, res) {
                 if (err) {
                     console.log('err in saving house to db ', err)  
@@ -125,6 +124,7 @@ dataMethods.retrieveAndSaveHouseData = function(house) {
                     console.log('saved house to db ', res)
                 }
             })
+        }
     })
 }
 

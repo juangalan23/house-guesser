@@ -11,11 +11,9 @@ app.use(express.static(__dirname + '/../react-client/dist'));
 
 
 app.get('/addHousesToDB', function (req, res) {
-  // console.log('addresses data ', hundredAddress.addresses);
 
   hundredAddress.addresses.forEach( address => {
-    // console.log('each address ', address)
-
+    console.log('address searched ', address);
     var street = address.address1;
     var city = address.city;
     var state = address.state;
@@ -45,19 +43,13 @@ app.get('/addHousesToDB', function (req, res) {
 
               dataMethods.retrieveAndSaveImages(addressArray);
               
-              res.sendStatus(201);
-            // FROM HERE, CREATE 2 HELPER FUNCTIONS
-              // 1 -> QUERIES ZILLOW WITH THE ZIPID DATA, RECEIVES AND CLEANS THAT DATA TO GET IMAGE URLS AND PUTS THEM INTO AN ARRAY
-                // THEN, ITERATE THROUGH THAT ARRAY, AND SAVE IT TO OUR IMAGES TABLE, ALONG WITH THE ZIPID
-                // DON'T MAKE THE ZILLOW GET REQUEST PART OF THE HELPER FUNCTION. THE HELPER FUNCTION SHOULD CALL THE GET REQUEST
-              // 2 -> QUERIES ZILLOW WITH ADDRESS DATA, RECEIVES AND CLEANS VALUATION + HOUSE DETAILS
-                // THEN, SAVE THAT INFO INTO THE DB ACCORDING TO THE SCHEMA WE CREATED
-            // NOTE: IS IT ZPID OR ZIPID??
+              
           }) 
         }
       })
     // }
   })
+  res.sendStatus(201);
 });
 
 app.get('/getAllIds', function(req, res) {
