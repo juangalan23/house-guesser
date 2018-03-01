@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { withStyles } from 'material-ui/styles';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
 import Button from 'material-ui/Button';
+var dollar = require('currency-formatter');
 
 const styles = theme => ({
     root: {
@@ -42,13 +43,13 @@ class OptionsTable extends React.Component {
                     <TableBody>
 
                         <TableRow>
-                            <TableCell> <Button >{this.props.choices[0]} </Button>  </TableCell>
-                            <TableCell> <Button >{this.props.choices[1]} </Button> </TableCell>
+                            <TableCell> <Button color="primary" > {dollar.format(this.props.choices[0], { code: 'USD'})}  </Button>  </TableCell>
+                            <TableCell> <Button color="primary" > {dollar.format(this.props.choices[1], { code: 'USD'})}  </Button> </TableCell>
                         </TableRow>
 
                         <TableRow>
-                            <TableCell> <Button >{this.props.choices[2]} </Button> </TableCell>
-                            <TableCell> <Button >{this.props.choices[3]} </Button> </TableCell>
+                            <TableCell> <Button color="primary" > {dollar.format(this.props.choices[2], { code: 'USD'})}  </Button> </TableCell>
+                            <TableCell> <Button color="primary" > {dollar.format(this.props.choices[3], { code: 'USD'})}  </Button> </TableCell>
                         </TableRow>
 
                     </TableBody>
