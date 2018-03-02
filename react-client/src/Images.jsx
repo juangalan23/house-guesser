@@ -49,7 +49,7 @@ class Images extends React.Component {
     }
 
     var titleText = this.props.houseData.bedrooms+ ' ' +bedrooms+ ' '+
-                            this.props.houseData.bedrooms+ ' '+ bathrooms +' house in '+
+                            this.props.houseData.bathrooms+ ' '+ bathrooms +' house in '+
                             this.props.houseData.city + ', '+ this.props.houseData.stateInitials;
 
         return(
