@@ -46,7 +46,7 @@ class HintTransition extends React.Component {
         var buttonMessage = 'Need a hint? (0/2)';
     }
     if (this.props.onHint ===1 ) {
-        var buttonMessage = '1 left! ';
+        var buttonMessage = '1 left! (1/2) ';
         var hintMessage = 'The average house in the area is worth ' 
         + formatUSD({amount: this.props.houseData.areavalue, decimalPlaces: 0});
     } 
