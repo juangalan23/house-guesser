@@ -3,7 +3,7 @@ var mysql = require('mysql');
 var connection = mysql.createConnection({
   host     : 'house-guesser.cw0klusijyxh.us-east-2.rds.amazonaws.com',
   user     : 'juangalan23',
-  password : 'Asturias23?',
+  password : 'juangalan',
   database : 'housing'
 });
 
