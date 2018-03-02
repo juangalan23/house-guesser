@@ -39,6 +39,7 @@ class HintTransition extends React.Component {
     }
 
     if ( this.props.onHint > 2) {
+        var buttonMessage = 'Out of hints!';
         var hintMessage = "No hints left!"
     }
     if(this.props.onHint ===0) {
@@ -55,7 +56,7 @@ class HintTransition extends React.Component {
     }
 
  
-
+    console.log('hint message ', hintMessage);
     return (
         
       <div>
