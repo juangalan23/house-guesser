@@ -45,6 +45,7 @@ class App extends React.Component {
   }
 
   getAllHouseIds () {
+    console.log('house data ', this.state.houseData);
       axios.get('/getAllIds')
       .then( (houseIds) => {
         this.setState({
@@ -80,7 +81,7 @@ class App extends React.Component {
     this.setState({
       viewedHouses: newViewedHouses
     },() => {
-      console.log('house data ', this.props.houseData);
+      
     })
   }
 
