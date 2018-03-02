@@ -5,6 +5,7 @@ var connection = mysql.createConnection({
   user     : 'juangalan23',
   password : 'juangalan',
   database : 'housing',
+  port: 3306,
   extra: {
     ssl: true
   }
