@@ -9,9 +9,9 @@ var connection = mysql.createConnection({
 
 connection.connect((err) => {
   if(err) {
-    console.log('err connecting to the db')
+    console.log('err connecting to the db ',err )
   } else {
-    console.log('connected to the db', err)
+    console.log('connected to the db')
   }
 })
 
