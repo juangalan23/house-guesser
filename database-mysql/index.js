@@ -1,7 +1,7 @@
 var mysql = require('mysql');
 
 var connection = mysql.createConnection({
-  host     : 'house-guesser.cw0klusijyxh.us-east-2.rds.amazonaws.com',
+  host     : 'house-guesser.cw0klusijyxh.us-east-2.rds.amazonaws.com--ssl-ca=rds-ca-2015-root.pem',
   user     : 'juangalan23',
   password : 'juangalan',
   database : 'housing'
