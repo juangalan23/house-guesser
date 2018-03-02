@@ -11,7 +11,7 @@
             "state": "NY"
         },
         {
-            "address1": "429 Ave C",
+            "address1": "4 Buccaneer Way",
             "city": "Coronado",
             "state": "CA"
         },
@@ -21,19 +21,45 @@
             "state": "CA"
         },
         {
-            "address1": "Lund Court 21",
-            "city": "Woodstock",
-            "state": "NY"
-        },
-        {
-            "address1": "1650 Eighth Ave",
-            "city": "San Diego",
+            "address1": "915 Benedict Canyon Dr",
+            "city": "Beverly Hills",
             "state": "CA"
         },
         {
-            "address1": "141 Dunbar Road",
-            "city": "Hudson",
+            "address1": "7860 Torreyson Dr",
+            "city": "Los Angeles",
+            "state": "CA"
+        },
+        {
+            "address1": "213 Park Ln",
+            "city": "Atherton",
+            "state": "CA"
+        },
+        {
+            "address1": "1092 Woody Creek Rd",
+            "city": "Woody Creek",
+            "state": "CO"
+        },
+        {
+            "address1": "1500 S Ocean Blvd",
+            "city": "Lake Worth",
+            "state": "FL"
+        },
+        {
+            "address1": "68 Hedges Ln",
+            "city": "Sagaponack",
             "state": "NY"
+        },
+        {
+            "address1": "421 Cranberry Hole Rd",
+            "city": "Amagansett",
+            "state": "NY"
+        },
+        {
+            "address1": "160 White Pine Canyon Rd",
+            "city": "Park City",
+            "state": "UT"
         }
+   
     ]
 }

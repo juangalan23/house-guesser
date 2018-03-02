@@ -8,6 +8,7 @@ import ButtonAppBar from './AppBar.jsx';
 import HintsButton from './HintsButton.jsx';
 import HintTransition from './HintTransition.jsx';
 import Button from 'material-ui/Button';
+import RestartButton from './RestartButton.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -16,6 +17,7 @@ class App extends React.Component {
         houseData: {},
         houseImages: [],
         availableHouses: [],
+        viewedHouses: [],
         houseId: [],
         guessOptions: [],
         onHint: 0
@@ -26,11 +28,20 @@ class App extends React.Component {
     this.generateGuessOptions = this.generateGuessOptions.bind(this);
     this.resetHint = this.resetHint.bind(this);
     this.changeHint = this.changeHint.bind(this);
+    this.resetHouses = this.resetHouses.bind(this);
   }
 
   componentDidMount() {
     this.getAllHouseIds();
     this.resetHint();
+  }
+
+  resetHouses() {
+    this.setState({
+      viewedHouses: []
+    }, () => {
+      this.getAllHouseIds();
+    })
   }
 
   getAllHouseIds () {
@@ -39,7 +50,16 @@ class App extends React.Component {
         this.setState({
           availableHouses: houseIds.data
         }, () => {
-          this.getRandomHouse()
+          var viewedHouses = this.state.viewedHouses.slice();
+          var availableHousesToSplice = this.state.availableHouses.slice();
+          viewedHouses.forEach( house => {
+            availableHousesToSplice.splice( availableHousesToSplice.indexOf(house), 1 )
+          })
+          this.setState({     
+            availableHouses: availableHousesToSplice
+          }, ()=> {
+            this.getRandomHouse()
+          })
         })
       })
       .catch( (err) => {
@@ -55,6 +75,13 @@ class App extends React.Component {
     var randomZipId = this.state.availableHouses[randomIndex];
     this.getPicsById(randomZipId)
     this.getHouseDataById(randomZipId)
+    var newViewedHouses = this.state.viewedHouses.slice()
+    newViewedHouses.push(randomZipId)
+    this.setState({
+      viewedHouses: newViewedHouses
+    },() => {
+      
+    })
   }
 
   getPicsById (houseId) {
@@ -88,7 +115,6 @@ class App extends React.Component {
         houseData: houseData.data
       }, () => {
         this.generateGuessOptions();
-        console.log('state house data ', this.state.houseData)
       })
     })
     .catch( (err)=> {
@@ -134,7 +160,6 @@ class App extends React.Component {
     })
   }
  
- 
   render () {
     if (!this.state.houseImages.length) {
       var images = <div> </div>;
@@ -153,6 +178,14 @@ class App extends React.Component {
                     />
     }
 
+    if (this.state.availableHouses.length===0) {
+      var resetGame = < RestartButton resetHouses={this.resetHouses} /> 
+    } else {
+      var resetGame = <div></div>
+    }
+
+
+
     return (
     <div style ={{
       width: '100%'
@@ -167,6 +200,7 @@ class App extends React.Component {
           onHint={this.state.onHint} 
           changeHint={this.changeHint} 
           houseData={this.state.houseData}/>
+          {resetGame}
     </div>)
   }
 }

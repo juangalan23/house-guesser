@@ -1,5 +1,5 @@
 const axios = require('axios');
-const zillowApiKey = require('../zillowApiKey.js');
+const zillowApiKey = process.env.API_KEY || require('../zillowApiKey.js');
 var convert = require('xml-js');
 var db = require('../database-mysql')
 

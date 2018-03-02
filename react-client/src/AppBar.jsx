@@ -34,7 +34,7 @@ function ButtonAppBar(props) {
           <Typography variant="title" color="inherit" className={classes.flex}>
             Guess the house's value
           </Typography>
-          <Button color="inherit">Login</Button>
+          {/* <Button color="inherit">Login</Button> */}
         </Toolbar>
       </AppBar>
     </div>

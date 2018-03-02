@@ -54,9 +54,7 @@ class HintTransition extends React.Component {
         var buttonMessage = 'Out of hints!';
         var hintMessage = 'This house was built in ' + this.props.houseData.year;
     }
-
- 
-    console.log('hint message ', hintMessage);
+    
     return (
         
       <div>

@@ -1,11 +1,19 @@
 var mysql = require('mysql');
 
 var connection = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'root',
-  password : 'skate',
+  host     : 'house-guesser.cw0klusijyxh.us-east-2.rds.amazonaws.com',
+  user     : 'juangalan23',
+  password : 'juangalan',
   database : 'housing'
 });
+
+connection.connect((err) => {
+  if(err) {
+    console.log('err connecting to the db')
+  } else {
+    console.log('connected to the db')
+  }
+})
 
 var selectAll = function(callback) {
   connection.query('SELECT * FROM items', function(err, results, fields) {
