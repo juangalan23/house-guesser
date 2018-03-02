@@ -80,7 +80,7 @@ class App extends React.Component {
     this.setState({
       viewedHouses: newViewedHouses
     },() => {
-      
+      console.log('house data ', this.props.houseData);
     })
   }
 
