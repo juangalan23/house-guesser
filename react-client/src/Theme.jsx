@@ -3,20 +3,20 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import purple from 'material-ui/colors/purple';
-import green from 'material-ui/colors/green';
+import lightgreen from 'material-ui/colors/lightgreen';
 import blue from 'material-ui/colors/blue';
 import App from './Index.jsx';
 
 
 const theme = createMuiTheme({
-  palette: {
-    primary: green,
-    secondary: blue,
-  },
-  status: {
-    danger: 'orange',
-  },
-});
+    palette: {
+      primary: lightgreen,
+      secondary: blue,
+    },
+    status: {
+      danger: 'orange',
+    },
+  });
 
 function Root() {
     return (
