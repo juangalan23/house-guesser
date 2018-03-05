@@ -91,7 +91,7 @@ class OptionsTable extends React.Component {
 
                         <TableRow>
                             <TableCell> 
-                                <Button color="primary" 
+                                <Button color="secondary" 
                                     data-option={this.props.choices[0]}
                                     onClick={this.handleClick}
                                 > 
@@ -100,7 +100,7 @@ class OptionsTable extends React.Component {
                                 </Button>  
                             </TableCell>
                             <TableCell> 
-                                <Button color="primary" 
+                                <Button color="secondary" 
                                     data-option={this.props.choices[1]}
                                     onClick={this.handleClick}
                                 >   
@@ -112,7 +112,7 @@ class OptionsTable extends React.Component {
 
                         <TableRow>
                             <TableCell> 
-                                <Button color="primary" 
+                                <Button color="secondary" 
                                     data-option={this.props.choices[2]}
                                     onClick={this.handleClick}
                                 >   
@@ -120,7 +120,7 @@ class OptionsTable extends React.Component {
                                 </Button> 
                             </TableCell>
                             <TableCell> 
-                                <Button color="primary" 
+                                <Button color="secondary" 
                                     data-option={this.props.choices[3]}
                                     onClick={this.handleClick}
                                 >   

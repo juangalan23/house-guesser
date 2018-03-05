@@ -10,6 +10,7 @@ import HintTransition from './HintTransition.jsx';
 import Button from 'material-ui/Button';
 import RestartButton from './RestartButton.jsx';
 
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -191,7 +192,8 @@ class App extends React.Component {
     <div style ={{
       width: '100%'
     }}>
-      <Reboot/>
+      {/* <Reboot/> */}
+
         <ButtonAppBar />
         <div style={{ height: '400px'}} >
         {images}
@@ -202,8 +204,9 @@ class App extends React.Component {
           changeHint={this.changeHint} 
           houseData={this.state.houseData}/>
           {resetGame}
+
     </div>)
   }
 }
 
-ReactDOM.render(<App />, document.getElementById('app'));
+export default App;
