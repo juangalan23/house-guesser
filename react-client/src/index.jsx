@@ -9,6 +9,7 @@ import HintsButton from './HintsButton.jsx';
 import HintTransition from './HintTransition.jsx';
 import Button from 'material-ui/Button';
 import RestartButton from './RestartButton.jsx';
+import { BrowserRouter } from 'react-router-dom';
 
 
 class App extends React.Component {
@@ -189,10 +190,8 @@ class App extends React.Component {
 
 
     return (
-    <div style ={{
-      width: '100%'
-    }}>
-      {/* <Reboot/> */}
+
+    <div style ={{width: '100%'}}>
 
         <ButtonAppBar />
         <div style={{ height: '400px'}} >

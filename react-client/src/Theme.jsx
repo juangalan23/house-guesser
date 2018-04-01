@@ -25,6 +25,6 @@ function Root() {
         </MuiThemeProvider>
     );
 }
+export default Root;
 
 
-ReactDOM.render(<Root />, document.getElementById('app'));

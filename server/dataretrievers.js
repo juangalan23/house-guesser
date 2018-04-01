@@ -1,5 +1,5 @@
 const axios = require('axios');
-const zillowApiKey = process.env.API_KEY || require('../zillowApiKey.js');
+const zillowApiKey = process.env.zillowApiKey || require('../config.js').zillowApiKey
 var convert = require('xml-js');
 var db = require('../database-mysql')
 
@@ -9,8 +9,6 @@ let dataMethods = {};
 dataMethods.zillowDeepSearch = function (address, city, state, zipid = null, callback) {  
     var newAddress = address.replace(/ /gi, '+');
     var newCity = city.replace(/ /gi, '+');
-    // console.log('new address ', newAddress);
-    // console.log('new city ', newCity);
     var deepSearchUrl = `http://www.zillow.com/webservice/GetDeepSearchResults.htm?zws-id=${zillowApiKey}&address=${newAddress}&citystatezip=${newCity}%2C+${state}`;
     axios({
         method: 'get',
@@ -20,7 +18,7 @@ dataMethods.zillowDeepSearch = function (address, city, state, zipid = null, cal
         callback(data);
     })
     .catch( (err) => {
-        // console.log('err in deep search get req ', err);
+        console.log('err in deep search get req ', err);
     })
 }
 

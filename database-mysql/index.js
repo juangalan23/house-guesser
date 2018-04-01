@@ -1,11 +1,12 @@
-var mysql = require('mysql');
+const mysql = require('mysql');
+const config = require('../config.js')
 
-var connection = mysql.createConnection({
-  host     : 'house-guesser.cw0klusijyxh.us-east-2.rds.amazonaws.com',
-  user     : 'juangalan23',
-  password : 'juangalan',
-  database : 'housing',
-  port: 3306,
+const connection = mysql.createConnection({
+  host     : process.env.host || config.dbConfig.host,
+  user     : process.env.user || config.dbConfig.user,
+  password : process.env.password || config.dbConfig.password,
+  database : process.env.database || config.dbConfig.database,
+  port: process.env.port || config.dbConfig.port,
   extra: {
     ssl: true
   }
@@ -19,7 +20,7 @@ connection.connect((err) => {
   }
 })
 
-var selectAll = function(callback) {
+const selectAll = function(callback) {
   connection.query('SELECT * FROM items', function(err, results, fields) {
     if(err) {
       callback(err, null);
@@ -29,7 +30,7 @@ var selectAll = function(callback) {
   });
 };
 
-var saveImageToDb = function(url, zpid, callback) {
+const saveImageToDb = function(url, zpid, callback) {
   connection.query(`INSERT INTO pictures (link, zpid) VALUES( '${url}', '${zpid}' )`, function(err, res) {
     if (err) {
       callback(err, res);
@@ -39,7 +40,7 @@ var saveImageToDb = function(url, zpid, callback) {
   });
 };
 
-var saveHouseToDb = function(zpid, housevalue, areavalue, street, state, city, zipcode, bedroom, bathrooms, year, callback) {
+const saveHouseToDb = function(zpid, housevalue, areavalue, street, state, city, zipcode, bedroom, bathrooms, year, callback) {
   connection.query(`INSERT INTO 
   houses (zpid, housevalue, areavalue, street, stateInitials, 
     city, zipcode, bedrooms, bathrooms, year)

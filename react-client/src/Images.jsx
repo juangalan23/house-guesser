@@ -57,7 +57,7 @@ class Images extends React.Component {
 
             <GridList style={styles.gridList} cols={1.1}  > 
               {this.props.pics.map((image, i) => {
-                if( i ===0) {
+                if( i === 0) {
                   var barTitle = <GridListTileBar 
                                 title= {titleText} />
 
