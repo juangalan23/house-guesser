@@ -4,6 +4,7 @@ var items = require('../database-mysql');
 var dataMethods = require('./dataretrievers.js');
 var convert = require('xml-js');
 var hundredAddress = require('../database-mysql/addresses/addresses-us-100.json');
+const timingTestMethods = require('./timingTest.js')
 
 var app = express();
 
@@ -16,7 +17,7 @@ app.get('/addHousesToDB', function (req, res) {
     console.log('address searched ', address);
     var street = address.address1;
     var city = address.city;
-    var state = address.state;
+    var state = address.state;  
     // var street = hundredAddress.addresses[0].address1;
     // var city = hundredAddress.addresses[0].city;
     // var state = hundredAddress.addresses[0].state;
@@ -79,6 +80,20 @@ app.get('/getHouseDataById'  , function( req, res) {
     // res.send(idArray)
     // console.log('house data retrieved from from db ', data[0])
     res.send(data[0])
+  })
+})
+
+app.get('/nestedApiTiming' , function( req, res) {
+  timingTestMethods.nestedApiCalls(function(data) {
+    console.log('data sent back to nest api timing ', data);
+    res.status(201).send(data);
+  })
+})
+
+app.get('/retrievalFromDbTiming' , function( req, res) {
+  timingTestMethods.retrievalFromDb(function(data) {
+    console.log('data sent back to from db retrieval timing ', data);
+    res.status(201).send(data);
   })
 })
 

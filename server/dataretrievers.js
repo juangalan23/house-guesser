@@ -1,8 +1,10 @@
 const axios = require('axios');
-const zillowApiKey = process.env.zillowApiKey || require('../config.js').zillowApiKey
+if (!process.env.host) {
+    var config = require('../config');
+  }
+const zillowApiKey = process.env.zillowApiKey || config.zillowApiKey
 var convert = require('xml-js');
 var db = require('../database-mysql')
-
 
 let dataMethods = {};
 
@@ -10,6 +12,10 @@ dataMethods.zillowDeepSearch = function (address, city, state, zipid = null, cal
     var newAddress = address.replace(/ /gi, '+');
     var newCity = city.replace(/ /gi, '+');
     var deepSearchUrl = `http://www.zillow.com/webservice/GetDeepSearchResults.htm?zws-id=${zillowApiKey}&address=${newAddress}&citystatezip=${newCity}%2C+${state}`;
+    // console.log('new address ', newAddress);
+    // console.log('new city ', newCity);
+    // console.log('zillow api key ', zillowApiKey);
+    // console.log('zipid ', zipid);
     axios({
         method: 'get',
         url: deepSearchUrl
@@ -103,10 +109,6 @@ dataMethods.retrieveAndSaveImages = function(array) {
 dataMethods.retrieveAndSaveHouseData = function(house) {
     this.zillowDeepSearch(house.street, house.city, house.state, house.zipid, function(data) {
         var jsonDeepSearch = JSON.parse(convert.xml2json(data.data, {compact: true, spaces: 4}));
-        // console.log('deepsearch house data', jsonDeepSearch);
-        // console.log('address ', house.street, house.city, house.state, house.zipid)
-        // console.log('house zipid ', house.zipid);
-        // console.log('house value ', houseValue);
         var houseValue = jsonDeepSearch[Object.keys(jsonDeepSearch)[1]].response.results.result.zestimate.amount._text;
         var areaValue = jsonDeepSearch[Object.keys(jsonDeepSearch)[1]].response.results.result.localRealEstate.region.zindexValue._text.replace(/,/gi, '')
         var bedRooms = jsonDeepSearch[Object.keys(jsonDeepSearch)[1]].response.results.result.bedrooms._text;

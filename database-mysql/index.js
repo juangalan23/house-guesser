@@ -1,9 +1,8 @@
 const mysql = require('mysql');
 // const config = require('../config.js') || {};
-if (!process.env) {
-  const config = require('../config.js')
+if (!process.env.host) {
+  var config = require('../config');
 }
-
 const connection = mysql.createConnection({
   host     : process.env.host || config.dbConfig.host,
   user     : process.env.user || config.dbConfig.user,

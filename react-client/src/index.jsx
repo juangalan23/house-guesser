@@ -194,7 +194,7 @@ class App extends React.Component {
     <div style ={{width: '100%'}}>
 
         <ButtonAppBar />
-        <div style={{ height: '400px'}} >
+        <div style={{ height: '800px'}} >
         {images}
         </div>
         {options}
